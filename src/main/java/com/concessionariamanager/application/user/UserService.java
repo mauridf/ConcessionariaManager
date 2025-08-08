@@ -32,7 +32,7 @@ public class UserService {
         return new UserResponseDTO(user.getId(), user.getNome(), user.getEmail(), user.getRole());
     }
 
-    public String login(UserLoginDTO dto) {
+    public UserLoginResponseDTO login(UserLoginDTO dto) {
         User user = userRepository.findByEmail(dto.email())
                 .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
 
@@ -40,6 +40,8 @@ public class UserService {
             throw new RuntimeException("Senha inválida");
         }
 
-        return jwtService.generateToken(user.getEmail(), user.getRole().name());
+        String token = jwtService.generateToken(user.getEmail(), user.getRole().name());
+
+        return new UserLoginResponseDTO(token, user.getNome(), user.getEmail(), user.getRole());
     }
 }

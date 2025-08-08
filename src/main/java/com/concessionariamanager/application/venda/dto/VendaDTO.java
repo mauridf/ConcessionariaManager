@@ -24,7 +24,7 @@ public class VendaDTO {
     public void setId(UUID id) { this.id = id; }
 
     public UUID getClienteId() { return clienteId; }
-    public void setClienteId(Long clienteId) { this.clienteId = clienteId; }
+    public void setClienteId(UUID clienteId) { this.clienteId = clienteId; }
 
     public UUID getVeiculoId() { return veiculoId; }
     public void setVeiculoId(UUID veiculoId) { this.veiculoId = veiculoId; }
@@ -46,4 +46,7 @@ public class VendaDTO {
 
     public LocalDateTime getDataVenda() { return dataVenda; }
     public void setDataVenda(LocalDateTime dataVenda) { this.dataVenda = dataVenda; }
+
+    public void setClienteId(Long aLong) {
+    }
 }

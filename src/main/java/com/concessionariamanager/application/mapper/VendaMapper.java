@@ -13,7 +13,7 @@ public class VendaMapper {
         if (entity == null) return null;
 
         VendaDTO dto = new VendaDTO();
-        dto.setId(entity.getId());
+        dto.setId(entity.getId()); // UUID
         dto.setClienteId(entity.getCliente() != null ? entity.getCliente().getId() : null);
         dto.setVeiculoId(entity.getVeiculo() != null ? entity.getVeiculo().getId() : null);
         dto.setVendedorId(entity.getVendedor() != null ? entity.getVendedor().getId() : null);
@@ -30,7 +30,7 @@ public class VendaMapper {
         if (dto == null) return null;
 
         Venda entity = new Venda();
-        entity.setId(dto.getId());
+        entity.setId(dto.getId()); // UUID
         entity.setCliente(cliente);
         entity.setVeiculo(veiculo);
         entity.setVendedor(vendedor);

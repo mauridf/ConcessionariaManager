@@ -2,6 +2,7 @@ package com.concessionariamanager.presentation.auth;
 
 import com.concessionariamanager.application.user.UserService;
 import com.concessionariamanager.application.user.dto.UserLoginDTO;
+import com.concessionariamanager.application.user.dto.UserLoginResponseDTO;
 import com.concessionariamanager.application.user.dto.UserRegisterDTO;
 import com.concessionariamanager.application.user.dto.UserResponseDTO;
 import jakarta.validation.Valid;
@@ -23,8 +24,8 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<String> login(@Valid @RequestBody UserLoginDTO dto) {
-        String token = userService.login(dto);
-        return ResponseEntity.ok(token);
+    public ResponseEntity<UserLoginResponseDTO> login(@Valid @RequestBody UserLoginDTO dto) {
+        UserLoginResponseDTO response = userService.login(dto);
+        return ResponseEntity.ok(response);
     }
 }
