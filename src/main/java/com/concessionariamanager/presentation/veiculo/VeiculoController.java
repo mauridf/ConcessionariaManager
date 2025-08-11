@@ -45,17 +45,6 @@ public class VeiculoController {
         return ResponseEntity.ok(VeiculoMapper.toDTO(veiculoService.salvar(veiculo)));
     }
 
-    // Listar todos (todos autenticados)
-    /*@GetMapping
-    @PreAuthorize("isAuthenticated()")
-    public ResponseEntity<List<VeiculoDTO>> listarTodos() {
-        return ResponseEntity.ok(
-                veiculoService.listarTodos().stream()
-                        .map(VeiculoMapper::toDTO)
-                        .toList()
-        );
-    }*/
-
     @GetMapping
     public ResponseEntity<Page<VeiculoDTO>> listar(
             @RequestParam(required = false) String marca,
