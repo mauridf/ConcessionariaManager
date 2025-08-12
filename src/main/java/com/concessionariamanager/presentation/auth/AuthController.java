@@ -5,10 +5,15 @@ import com.concessionariamanager.application.user.dto.UserLoginDTO;
 import com.concessionariamanager.application.user.dto.UserLoginResponseDTO;
 import com.concessionariamanager.application.user.dto.UserRegisterDTO;
 import com.concessionariamanager.application.user.dto.UserResponseDTO;
+import com.concessionariamanager.domain.user.Role;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import jakarta.validation.Valid;
+import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/auth")

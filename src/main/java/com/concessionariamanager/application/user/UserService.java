@@ -10,6 +10,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.UUID;
+import java.util.stream.Collectors;
+
 @Service
 @RequiredArgsConstructor
 public class UserService {
@@ -43,5 +47,45 @@ public class UserService {
         String token = jwtService.generateToken(user.getEmail(), user.getRole().name());
 
         return new UserLoginResponseDTO(token, user.getNome(), user.getEmail(), user.getRole());
+    }
+
+    public UserResponseDTO findById(UUID id) {
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
+        return toDTO(user);
+    }
+
+    public List<UserResponseDTO> findByRole(Role role) {
+        List<User> users = userRepository.findByRole(role);
+        return users.stream().map(this::toDTO).collect(Collectors.toList());
+    }
+
+    public List<UserResponseDTO> findAll() {
+        return userRepository.findAll().stream().map(this::toDTO).collect(Collectors.toList());
+    }
+
+    @Transactional
+    public UserResponseDTO update(UUID id, UserRegisterDTO dto) {
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
+
+        user.setNome(dto.nome());
+        user.setEmail(dto.email());
+        if (dto.senha() != null && !dto.senha().isBlank()) {
+            user.setSenhaHash(passwordEncoder.encode(dto.senha()));
+        }
+        user.setRole(dto.role());
+
+        userRepository.save(user);
+
+        return toDTO(user);
+    }
+
+    public void delete(UUID id) {
+        userRepository.deleteById(id);
+    }
+
+    private UserResponseDTO toDTO(User user) {
+        return new UserResponseDTO(user.getId(), user.getNome(), user.getEmail(), user.getRole());
     }
 }
