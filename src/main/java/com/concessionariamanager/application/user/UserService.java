@@ -10,6 +10,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -55,13 +58,14 @@ public class UserService {
         return toDTO(user);
     }
 
-    public List<UserResponseDTO> findByRole(Role role) {
-        List<User> users = userRepository.findByRole(role);
-        return users.stream().map(this::toDTO).collect(Collectors.toList());
+    public Page<UserResponseDTO> findByRole(Role role, Pageable pageable) {
+        return userRepository.findByRole(role, pageable)
+                .map(this::toDTO);
     }
 
-    public List<UserResponseDTO> findAll() {
-        return userRepository.findAll().stream().map(this::toDTO).collect(Collectors.toList());
+    public Page<UserResponseDTO> findAll(Pageable pageable) {
+        return userRepository.findAll(pageable)
+                .map(this::toDTO);
     }
 
     @Transactional

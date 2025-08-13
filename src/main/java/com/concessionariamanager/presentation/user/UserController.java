@@ -10,6 +10,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
 import java.util.List;
 import java.util.UUID;
 
@@ -28,19 +31,21 @@ public class UserController {
         return ResponseEntity.ok(user);
     }
 
-    // Buscar usuários por role (autenticados)
+    // Buscar usuários por role (paginado)
     @GetMapping("/role/{role}")
     @PreAuthorize("isAuthenticated()")
-    public ResponseEntity<List<UserResponseDTO>> getByRole(@PathVariable Role role) {
-        List<UserResponseDTO> users = userService.findByRole(role);
+    public ResponseEntity<Page<UserResponseDTO>> getByRole(
+            @PathVariable Role role,
+            Pageable pageable) {
+        Page<UserResponseDTO> users = userService.findByRole(role, pageable);
         return ResponseEntity.ok(users);
     }
 
-    // Listar todos os usuários (autenticados)
+    // Listar todos os usuários (paginado)
     @GetMapping
     @PreAuthorize("isAuthenticated()")
-    public ResponseEntity<List<UserResponseDTO>> getAll() {
-        List<UserResponseDTO> users = userService.findAll();
+    public ResponseEntity<Page<UserResponseDTO>> getAll(Pageable pageable) {
+        Page<UserResponseDTO> users = userService.findAll(pageable);
         return ResponseEntity.ok(users);
     }
 
