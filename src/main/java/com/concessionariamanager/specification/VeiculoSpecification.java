@@ -1,8 +1,6 @@
 package com.concessionariamanager.specification;
 
-import com.concessionariamanager.domain.veiculo.Veiculo;
-import com.concessionariamanager.domain.veiculo.Categoria;
-import com.concessionariamanager.domain.veiculo.TipoVeiculo;
+import com.concessionariamanager.domain.veiculo.*;
 import org.springframework.data.jpa.domain.Specification;
 
 public class VeiculoSpecification {
@@ -25,6 +23,16 @@ public class VeiculoSpecification {
     public static Specification<Veiculo> categoriaEquals(Categoria categoria) {
         return (root, query, cb) ->
                 categoria == null ? null : cb.equal(root.get("categoria"), categoria);
+    }
+
+    public static Specification<Veiculo> combustivelEquals(Combustivel combustivel) {
+        return (root, query, cb) ->
+                combustivel == null ? null : cb.equal(root.get("combustivel"), combustivel);
+    }
+
+    public static Specification<Veiculo> cambioEquals(Cambio cambio) {
+        return (root, query, cb) ->
+                cambio == null ? null : cb.equal(root.get("cambio"), cambio);
     }
 }
 

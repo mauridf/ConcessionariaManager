@@ -2,6 +2,7 @@ package com.concessionariamanager.presentation.veiculo;
 
 import com.concessionariamanager.application.veiculo.dto.VeiculoDTO;
 import com.concessionariamanager.application.mapper.VeiculoMapper;
+import com.concessionariamanager.domain.veiculo.*;
 import io.jsonwebtoken.io.IOException;
 import org.springframework.data.jpa.domain.JpaSort;
 import org.springframework.web.multipart.MultipartFile;
@@ -13,9 +14,6 @@ import org.springframework.data.web.PageableDefault;
 import com.concessionariamanager.application.upload.UploadService;
 import com.concessionariamanager.application.veiculo.VeiculoService;
 import com.concessionariamanager.application.veiculo.dto.VeiculoFiltroDTO;
-import com.concessionariamanager.domain.veiculo.Categoria;
-import com.concessionariamanager.domain.veiculo.TipoVeiculo;
-import com.concessionariamanager.domain.veiculo.Veiculo;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -51,6 +49,8 @@ public class VeiculoController {
             @RequestParam(required = false) String modelo,
             @RequestParam(required = false) TipoVeiculo tipoVeiculo,
             @RequestParam(required = false) Categoria categoria,
+            @RequestParam(required = false) Combustivel combustivel,
+            @RequestParam(required = false) Cambio cambio,
             @PageableDefault(size = 10, sort = "marca") Pageable pageable) {
 
         VeiculoFiltroDTO filtro = new VeiculoFiltroDTO();
@@ -58,6 +58,8 @@ public class VeiculoController {
         filtro.setModelo(modelo);
         filtro.setTipoVeiculo(tipoVeiculo);
         filtro.setCategoria(categoria);
+        filtro.setCombustivel(combustivel);
+        filtro.setCambio(cambio);
 
         return ResponseEntity.ok(veiculoService.listar(filtro, pageable));
     }
@@ -111,5 +113,15 @@ public class VeiculoController {
         return ResponseEntity.ok()
                 .header("Content-Type", Files.probeContentType(caminho))
                 .body(imagem);
+    }
+
+    @GetMapping("/marcas")
+    public ResponseEntity<List<String>> getMarcas() {
+        return ResponseEntity.ok(veiculoService.listarMarcas());
+    }
+
+    @GetMapping("/modelos")
+    public ResponseEntity<List<String>> getModelos() {
+        return ResponseEntity.ok(veiculoService.listarModelos());
     }
 }

@@ -2,7 +2,7 @@ package com.concessionariamanager.application.veiculo;
 
 import com.concessionariamanager.application.veiculo.dto.VeiculoDTO;
 import com.concessionariamanager.application.veiculo.dto.VeiculoFiltroDTO;
-import com.concessionariamanager.domain.veiculo.Veiculo;
+import com.concessionariamanager.domain.veiculo.*;
 import com.concessionariamanager.infrastructure.veiculo.VeiculoRepository;
 import org.springframework.stereotype.Service;
 import com.concessionariamanager.application.mapper.VeiculoMapper;
@@ -37,7 +37,9 @@ public class VeiculoService {
                 VeiculoSpecification.marcaContains(filtro.getMarca()),
                 VeiculoSpecification.modeloContains(filtro.getModelo()),
                 VeiculoSpecification.tipoEquals(filtro.getTipoVeiculo()),
-                VeiculoSpecification.categoriaEquals(filtro.getCategoria())
+                VeiculoSpecification.categoriaEquals(filtro.getCategoria()),
+                VeiculoSpecification.combustivelEquals(filtro.getCombustivel()),
+                VeiculoSpecification.cambioEquals(filtro.getCambio())
         );
 
         return veiculoRepository.findAll(spec, pageable)
@@ -69,5 +71,13 @@ public class VeiculoService {
     public void deletar(UUID id) {
         Veiculo veiculo = buscarPorId(id);
         veiculoRepository.delete(veiculo);
+    }
+
+    public List<String> listarMarcas() {
+        return veiculoRepository.findDistinctMarcas();
+    }
+
+    public List<String> listarModelos() {
+        return veiculoRepository.findDistinctModelos();
     }
 }

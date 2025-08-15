@@ -44,6 +44,9 @@ public class SecurityConfig {
                         .requestMatchers(
                                 "/api/auth/**",
                                 "/api/users/**",  // Permite todos os endpoints de usuários
+                                "/api/veiculos/**", // Permite todos os endpoints de veiculos
+                                "/api/dados-tecnicos/**", // Permite todos os endpoints de dados técnicos do veiculo
+                                "/api/documentacao/**", // Permite todos os endpoints de documentação do veiculo
                                 "/swagger-ui/**",
                                 "/v3/api-docs/**"
                         ).permitAll()

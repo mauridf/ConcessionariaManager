@@ -5,5 +5,6 @@ public enum Combustivel {
     ALCOOL,
     FLEX,
     HIBRIDO,
-    DIESEL
+    DIESEL,
+    ELETRICO
 }
