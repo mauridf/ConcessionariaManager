@@ -9,21 +9,21 @@ public class TestController {
 
     // Endpoint acessível somente por GERENTE
     @GetMapping("/api/test/gerente")
-    @PreAuthorize("hasRole('GERENTE')")
+    //@PreAuthorize("hasRole('GERENTE')")
     public String gerenteAccess() {
         return "Acesso concedido ao Gerente";
     }
 
     // Endpoint acessível por GERENTE e VENDEDOR
     @GetMapping("/api/test/vendedor")
-    @PreAuthorize("hasAnyRole('GERENTE', 'VENDEDOR')")
+    //@PreAuthorize("hasAnyRole('GERENTE', 'VENDEDOR')")
     public String vendedorAccess() {
         return "Acesso concedido ao Vendedor ou Gerente";
     }
 
     // Endpoint acessível por todos os usuários autenticados
     @GetMapping("/api/test/all")
-    @PreAuthorize("isAuthenticated()")
+    //@PreAuthorize("isAuthenticated()")
     public String allAccess() {
         return "Acesso concedido a todos usuários autenticados";
     }

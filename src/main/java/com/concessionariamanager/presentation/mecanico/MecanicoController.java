@@ -23,7 +23,7 @@ public class MecanicoController {
 
     // Criar mecânico (só Gerente)
     @PostMapping
-    @PreAuthorize("hasRole('GERENTE')")
+    //@PreAuthorize("hasAuthority('GERENTE')")
     public ResponseEntity<MecanicoDTO> criar(@RequestBody MecanicoDTO dto) {
         var mecanico = MecanicoMapper.toEntity(dto);
         var salvo = mecanicoService.salvar(mecanico);
@@ -32,7 +32,7 @@ public class MecanicoController {
 
     // Listar todos (autenticados)
     @GetMapping
-    @PreAuthorize("isAuthenticated()")
+    //@PreAuthorize("isAuthenticated()")
     public ResponseEntity<List<MecanicoDTO>> listarTodos() {
         var lista = mecanicoService.listarTodos()
                 .stream()
@@ -43,7 +43,7 @@ public class MecanicoController {
 
     // Buscar Mecânico (autenticados)
     @GetMapping("/{id}")
-    @PreAuthorize("isAuthenticated()")
+    //@PreAuthorize("isAuthenticated()")
     public ResponseEntity<MecanicoDTO> buscarPorId(@PathVariable UUID id) {
         Mecanico mecanico = mecanicoService.buscarPorId(id);
         MecanicoDTO mecanicoDTO = MecanicoMapper.toDTO(mecanico);
@@ -52,7 +52,7 @@ public class MecanicoController {
 
     // Atualizar mecanico (só Gerente)
     @PutMapping("/{id}")
-    @PreAuthorize("hasRole('GERENTE')")
+    //@PreAuthorize("hasAuthority('GERENTE')")
     public ResponseEntity<MecanicoDTO> atualizar(@PathVariable UUID id, @RequestBody MecanicoDTO dto) {
         var mecanicoAtualizado = MecanicoMapper.toEntity(dto);
         var atualizado = mecanicoService.atualizar(id, mecanicoAtualizado);
@@ -61,7 +61,7 @@ public class MecanicoController {
 
     // Deletar mecanico (só Gerente)
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasRole('GERENTE')")
+    //@PreAuthorize("hasAuthority('GERENTE')")
     public ResponseEntity<Void> deletar(@PathVariable UUID id) {
         mecanicoService.deletar(id);
         return ResponseEntity.noContent().build();

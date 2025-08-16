@@ -24,7 +24,7 @@ public class RevisaoController {
 
     // Criar revisão (Mecânico e Gerente)
     @PostMapping
-    @PreAuthorize("hasAnyRole('MECANICO', 'GERENTE')")
+    //@PreAuthorize("hasAnyAuthority('MECANICO', 'GERENTE')")
     public ResponseEntity<RevisaoDTO> criar(@RequestBody RevisaoDTO dto) {
         Revisao revisao = RevisaoMapper.toEntity(dto, null, null); // Veiculo e mecanico serão carregados no service
         Revisao salvo = revisaoService.salvar(revisao);
@@ -33,7 +33,7 @@ public class RevisaoController {
 
     // Listar todas revisões (todos autenticados)
     @GetMapping
-    @PreAuthorize("isAuthenticated()")
+    //@PreAuthorize("isAuthenticated()")
     public ResponseEntity<List<RevisaoDTO>> listarTodos() {
         List<Revisao> lista = revisaoService.listarTodos();
         List<RevisaoDTO> dtos = lista.stream()
@@ -44,7 +44,7 @@ public class RevisaoController {
 
     // Buscar revisão por ID (todos autenticados)
     @GetMapping("/{id}")
-    @PreAuthorize("isAuthenticated()")
+    //@PreAuthorize("isAuthenticated()")
     public ResponseEntity<RevisaoDTO> buscarPorId(@PathVariable UUID id) {
         Revisao revisao = revisaoService.buscarPorId(id);
         return ResponseEntity.ok(RevisaoMapper.toDTO(revisao));
@@ -52,7 +52,7 @@ public class RevisaoController {
 
     // Atualizar revisão (Mecânico e Gerente)
     @PutMapping("/{id}")
-    @PreAuthorize("hasAnyRole('MECANICO', 'GERENTE')")
+    //@PreAuthorize("hasAnyAuthority('MECANICO', 'GERENTE')")
     public ResponseEntity<RevisaoDTO> atualizar(@PathVariable UUID id, @RequestBody RevisaoDTO dto) {
         Revisao revisaoAtualizada = RevisaoMapper.toEntity(dto, null, null);
         Revisao atualizado = revisaoService.atualizar(id, revisaoAtualizada);
@@ -61,7 +61,7 @@ public class RevisaoController {
 
     // Deletar revisão (Somente Gerente)
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasRole('GERENTE')")
+    //@PreAuthorize("hasAuthority('GERENTE')")
     public ResponseEntity<Void> deletar(@PathVariable UUID id) {
         revisaoService.deletar(id);
         return ResponseEntity.noContent().build();

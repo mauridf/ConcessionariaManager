@@ -18,32 +18,32 @@ public class ClienteController {
     }
 
     @PostMapping
-    @PreAuthorize("hasRole('GERENTE') or hasRole('VENDEDOR')")
+    //@PreAuthorize("hasAuthority('GERENTE') or hasAuthority('VENDEDOR')")
     public Cliente criarCliente(@RequestBody Cliente cliente) {
         return clienteService.criarCliente(cliente);
     }
 
     @GetMapping
-    @PreAuthorize("hasAnyRole('GERENTE', 'VENDEDOR', 'MECANICO')")
+    //@PreAuthorize("hasAnyAuthority('GERENTE', 'VENDEDOR', 'MECANICO')")
     public List<Cliente> listarClientes() {
         return clienteService.listarClientes();
     }
 
     @GetMapping("/{id}")
-    @PreAuthorize("hasAnyRole('GERENTE', 'VENDEDOR', 'MECANICO')")
+    //@PreAuthorize("hasAnyAuthority('GERENTE', 'VENDEDOR', 'MECANICO')")
     public Cliente buscarPorId(@PathVariable Long id) {
         return clienteService.buscarPorId(id)
                 .orElseThrow(() -> new RuntimeException("Cliente não encontrado"));
     }
 
     @PutMapping("/{id}")
-    @PreAuthorize("hasRole('GERENTE') or hasRole('VENDEDOR')")
+    //@PreAuthorize("hasAuthority('GERENTE') or hasAuthority('VENDEDOR')")
     public Cliente atualizarCliente(@PathVariable Long id, @RequestBody Cliente cliente) {
         return clienteService.atualizarCliente(id, cliente);
     }
 
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasRole('GERENTE')")
+    //@PreAuthorize("hasAuthority('GERENTE')")
     public void excluirCliente(@PathVariable Long id) {
         clienteService.excluirCliente(id);
     }

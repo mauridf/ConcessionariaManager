@@ -25,7 +25,7 @@ public class DocumentacaoVeiculoController {
     }
 
     @PostMapping
-    @PreAuthorize("hasAnyRole('GERENTE', 'VENDEDOR')")
+    //@PreAuthorize("hasAnyRole('GERENTE', 'VENDEDOR')")
     public ResponseEntity<DocumentacaoVeiculoDTO> criar(@RequestBody DocumentacaoVeiculoDTO dto) {
         Veiculo veiculo = veiculoRepository.findById(dto.getVeiculoId())
                 .orElseThrow(() -> new RuntimeException("Veículo não encontrado"));
@@ -35,21 +35,21 @@ public class DocumentacaoVeiculoController {
     }
 
     @GetMapping("/{id}")
-    @PreAuthorize("isAuthenticated()")
+    //@PreAuthorize("isAuthenticated()")
     public ResponseEntity<DocumentacaoVeiculoDTO> buscarPorId(@PathVariable UUID id) {
         DocumentacaoVeiculo entity = service.buscarPorId(id);
         return ResponseEntity.ok(DocumentacaoVeiculoMapper.toDTO(entity));
     }
 
     @GetMapping("/veiculo/{veiculoId}")
-    @PreAuthorize("isAuthenticated()")
+    //@PreAuthorize("isAuthenticated()")
     public ResponseEntity<DocumentacaoVeiculoDTO> buscarPorVeiculoId(@PathVariable UUID veiculoId) {
         DocumentacaoVeiculo entity = service.buscarPorVeiculoId(veiculoId);
         return ResponseEntity.ok(DocumentacaoVeiculoMapper.toDTO(entity));
     }
 
     @PutMapping("/{id}")
-    @PreAuthorize("hasAnyRole('GERENTE', 'VENDEDOR')")
+    //@PreAuthorize("hasAnyRole('GERENTE', 'VENDEDOR')")
     public ResponseEntity<DocumentacaoVeiculoDTO> atualizar(@PathVariable UUID id,
                                                             @RequestBody DocumentacaoVeiculoDTO dto) {
         Veiculo veiculo = veiculoRepository.findById(dto.getVeiculoId())
@@ -60,7 +60,7 @@ public class DocumentacaoVeiculoController {
     }
 
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasRole('GERENTE')")
+    //@PreAuthorize("hasRole('GERENTE')")
     public ResponseEntity<Void> deletar(@PathVariable UUID id) {
         service.deletar(id);
         return ResponseEntity.noContent().build();

@@ -20,32 +20,32 @@ public class EquipamentoOpcionalController {
     }
 
     @PostMapping
-    @PreAuthorize("hasAnyRole('GERENTE', 'VENDEDOR')")
+    //@PreAuthorize("hasAnyAuthority('GERENTE', 'VENDEDOR')")
     public ResponseEntity<EquipamentoOpcionalDTO> criar(@RequestBody EquipamentoOpcionalDTO dto) {
         EquipamentoOpcionalDTO criado = equipamentoOpcionalService.salvar(dto);
         return ResponseEntity.ok(criado);
     }
 
     @GetMapping
-    @PreAuthorize("isAuthenticated()")
+    //@PreAuthorize("isAuthenticated()")
     public ResponseEntity<List<EquipamentoOpcionalDTO>> listarTodos() {
         return ResponseEntity.ok(equipamentoOpcionalService.listarTodos());
     }
 
     @GetMapping("/{id}")
-    @PreAuthorize("isAuthenticated()")
+    //@PreAuthorize("isAuthenticated()")
     public ResponseEntity<EquipamentoOpcionalDTO> buscarPorId(@PathVariable UUID id) {
         return ResponseEntity.ok(equipamentoOpcionalService.buscarPorId(id));
     }
 
     @PutMapping("/{id}")
-    @PreAuthorize("hasAnyRole('GERENTE', 'VENDEDOR')")
+    //@PreAuthorize("hasAnyAuthority('GERENTE', 'VENDEDOR')")
     public ResponseEntity<EquipamentoOpcionalDTO> atualizar(@PathVariable UUID id, @RequestBody EquipamentoOpcionalDTO dto) {
         return ResponseEntity.ok(equipamentoOpcionalService.atualizar(id, dto));
     }
 
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasRole('GERENTE')")
+    //@PreAuthorize("hasAuthority('GERENTE')")
     public ResponseEntity<Void> deletar(@PathVariable UUID id) {
         equipamentoOpcionalService.deletar(id);
         return ResponseEntity.noContent().build();

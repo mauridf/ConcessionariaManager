@@ -43,7 +43,9 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(
                                 "/api/auth/**",
-                                "/api/users/**",  // Permite todos os endpoints de usuários
+                                //"/api/users/**",  // Permite todos os endpoints de usuários
+                                "/api/users/role",
+                                "/api/users",
                                 "/api/veiculos/**", // Permite todos os endpoints de veiculos
                                 "/api/dados-tecnicos/**", // Permite todos os endpoints de dados técnicos do veiculo
                                 "/api/documentacao/**", // Permite todos os endpoints de documentação do veiculo

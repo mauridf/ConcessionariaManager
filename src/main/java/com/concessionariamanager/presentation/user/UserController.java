@@ -3,6 +3,7 @@ package com.concessionariamanager.presentation.user;
 import com.concessionariamanager.application.user.UserService;
 import com.concessionariamanager.application.user.dto.UserRegisterDTO;
 import com.concessionariamanager.application.user.dto.UserResponseDTO;
+import com.concessionariamanager.application.user.dto.UserUpdateDTO;
 import com.concessionariamanager.domain.user.Role;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -25,7 +26,7 @@ public class UserController {
 
     // Buscar usuário por ID (autenticados)
     @GetMapping("/{id}")
-    @PreAuthorize("isAuthenticated()")
+    //@PreAuthorize("isAuthenticated()")
     public ResponseEntity<UserResponseDTO> getById(@PathVariable UUID id) {
         UserResponseDTO user = userService.findById(id);
         return ResponseEntity.ok(user);
@@ -33,7 +34,7 @@ public class UserController {
 
     // Buscar usuários por role (paginado)
     @GetMapping("/role/{role}")
-    @PreAuthorize("isAuthenticated()")
+    //@PreAuthorize("isAuthenticated()")
     public ResponseEntity<Page<UserResponseDTO>> getByRole(
             @PathVariable Role role,
             Pageable pageable) {
@@ -43,7 +44,7 @@ public class UserController {
 
     // Listar todos os usuários (paginado)
     @GetMapping
-    @PreAuthorize("isAuthenticated()")
+    //@PreAuthorize("isAuthenticated()")
     public ResponseEntity<Page<UserResponseDTO>> getAll(Pageable pageable) {
         Page<UserResponseDTO> users = userService.findAll(pageable);
         return ResponseEntity.ok(users);
@@ -51,16 +52,16 @@ public class UserController {
 
     // Atualizar usuário (somente GERENTE)
     @PutMapping("/{id}")
-    @PreAuthorize("hasRole('GERENTE')")
+    //@PreAuthorize("hasAuthority('GERENTE') or #dto.email == authentication.name")
     public ResponseEntity<UserResponseDTO> update(@PathVariable UUID id,
-                                                  @Valid @RequestBody UserRegisterDTO dto) {
+                                                  @Valid @RequestBody UserUpdateDTO dto) {
         UserResponseDTO updated = userService.update(id, dto);
         return ResponseEntity.ok(updated);
     }
 
     // Deletar usuário (somente GERENTE)
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasRole('GERENTE')")
+    //@PreAuthorize("hasAuthority('GERENTE')")
     public ResponseEntity<Void> delete(@PathVariable UUID id) {
         userService.delete(id);
         return ResponseEntity.noContent().build();

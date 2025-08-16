@@ -69,17 +69,19 @@ public class UserService {
     }
 
     @Transactional
-    public UserResponseDTO update(UUID id, UserRegisterDTO dto) {
+    public UserResponseDTO update(UUID id, UserUpdateDTO dto) {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
 
         user.setNome(dto.nome());
         user.setEmail(dto.email());
+
+        // Atualiza a senha apenas se for fornecida
         if (dto.senha() != null && !dto.senha().isBlank()) {
             user.setSenhaHash(passwordEncoder.encode(dto.senha()));
         }
-        user.setRole(dto.role());
 
+        user.setRole(dto.role());
         userRepository.save(user);
 
         return toDTO(user);
@@ -90,6 +92,11 @@ public class UserService {
     }
 
     private UserResponseDTO toDTO(User user) {
-        return new UserResponseDTO(user.getId(), user.getNome(), user.getEmail(), user.getRole());
+        return new UserResponseDTO(
+                user.getId(),
+                user.getNome(),
+                user.getEmail(),
+                user.getRole()
+        );
     }
 }

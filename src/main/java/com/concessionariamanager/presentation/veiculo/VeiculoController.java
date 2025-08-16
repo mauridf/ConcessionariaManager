@@ -37,7 +37,7 @@ public class VeiculoController {
 
     // Criar veículo (Gerente ou Vendedor)
     @PostMapping
-    @PreAuthorize("hasAnyRole('GERENTE', 'VENDEDOR')")
+    //@PreAuthorize("hasAnyAuthority('GERENTE', 'VENDEDOR')")
     public ResponseEntity<VeiculoDTO> criar(@RequestBody VeiculoDTO veiculoDTO) {
         Veiculo veiculo = VeiculoMapper.toEntity(veiculoDTO);
         return ResponseEntity.ok(VeiculoMapper.toDTO(veiculoService.salvar(veiculo)));
@@ -66,14 +66,14 @@ public class VeiculoController {
 
     // Buscar por ID (todos autenticados)
     @GetMapping("/{id}")
-    @PreAuthorize("isAuthenticated()")
+    //@PreAuthorize("isAuthenticated()")
     public ResponseEntity<VeiculoDTO> buscarPorId(@PathVariable UUID id) {
         return ResponseEntity.ok(VeiculoMapper.toDTO(veiculoService.buscarPorId(id)));
     }
 
     // Atualizar veículo (somente Gerente)
     @PutMapping("/{id}")
-    @PreAuthorize("hasRole('GERENTE')")
+    //@PreAuthorize("hasAuthority('GERENTE')")
     public ResponseEntity<VeiculoDTO> atualizar(@PathVariable UUID id, @RequestBody VeiculoDTO veiculoDTO) {
         Veiculo veiculo = VeiculoMapper.toEntity(veiculoDTO);
         return ResponseEntity.ok(VeiculoMapper.toDTO(veiculoService.atualizar(id, veiculo)));
@@ -81,7 +81,7 @@ public class VeiculoController {
 
     // Deletar veículo (somente Gerente)
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasRole('GERENTE')")
+    //@PreAuthorize("hasAuthority('GERENTE')")
     public ResponseEntity<Void> deletar(@PathVariable UUID id) {
         veiculoService.deletar(id);
         return ResponseEntity.noContent().build();

@@ -20,32 +20,32 @@ public class AutoPecaController {
     }
 
     @PostMapping
-    @PreAuthorize("hasAnyRole('GERENTE', 'MECANICO')")
+    //@PreAuthorize("hasAnyAuthority('GERENTE', 'MECANICO')")
     public ResponseEntity<AutoPecaDTO> criar(@RequestBody AutoPecaDTO dto) {
         AutoPecaDTO criado = autoPecaService.salvar(dto);
         return ResponseEntity.ok(criado);
     }
 
     @GetMapping
-    @PreAuthorize("isAuthenticated()")
+    //@PreAuthorize("isAuthenticated()")
     public ResponseEntity<List<AutoPecaDTO>> listarTodos() {
         return ResponseEntity.ok(autoPecaService.listarTodos());
     }
 
     @GetMapping("/{id}")
-    @PreAuthorize("isAuthenticated()")
+    //@PreAuthorize("isAuthenticated()")
     public ResponseEntity<AutoPecaDTO> buscarPorId(@PathVariable UUID id) {
         return ResponseEntity.ok(autoPecaService.buscarPorId(id));
     }
 
     @PutMapping("/{id}")
-    @PreAuthorize("hasAnyRole('GERENTE', 'MECANICO')")
+    //@PreAuthorize("hasAnyAuthority('GERENTE', 'MECANICO')")
     public ResponseEntity<AutoPecaDTO> atualizar(@PathVariable UUID id, @RequestBody AutoPecaDTO dto) {
         return ResponseEntity.ok(autoPecaService.atualizar(id, dto));
     }
 
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasRole('GERENTE')")
+    //@PreAuthorize("hasAuthority('GERENTE')")
     public ResponseEntity<Void> deletar(@PathVariable UUID id) {
         autoPecaService.deletar(id);
         return ResponseEntity.noContent().build();

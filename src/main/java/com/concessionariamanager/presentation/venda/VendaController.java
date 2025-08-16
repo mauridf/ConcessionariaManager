@@ -24,7 +24,7 @@ public class VendaController {
 
     // Criar venda (Gerente ou Vendedor)
     @PostMapping
-    @PreAuthorize("hasAnyRole('GERENTE', 'VENDEDOR')")
+    //@PreAuthorize("hasAnyAuthority('GERENTE', 'VENDEDOR')")
     public ResponseEntity<VendaDTO> criar(@RequestBody VendaDTO dto) {
         Venda venda = VendaMapper.toEntity(dto, null, null, null, null);
         Venda salvo = vendaService.salvar(venda);
@@ -33,7 +33,7 @@ public class VendaController {
 
     // Listar todas vendas (todos autenticados)
     @GetMapping
-    @PreAuthorize("isAuthenticated()")
+    //@PreAuthorize("isAuthenticated()")
     public ResponseEntity<List<VendaDTO>> listarTodos() {
         List<Venda> lista = vendaService.listarTodos();
         List<VendaDTO> dtos = lista.stream()
@@ -44,7 +44,7 @@ public class VendaController {
 
     // Buscar venda por ID (todos autenticados)
     @GetMapping("/{id}")
-    @PreAuthorize("isAuthenticated()")
+    //@PreAuthorize("isAuthenticated()")
     public ResponseEntity<VendaDTO> buscarPorId(@PathVariable UUID id) {
         Venda venda = vendaService.buscarPorId(id);
         return ResponseEntity.ok(VendaMapper.toDTO(venda));
@@ -52,7 +52,7 @@ public class VendaController {
 
     // Atualizar venda (Gerente ou Vendedor)
     @PutMapping("/{id}")
-    @PreAuthorize("hasAnyRole('GERENTE', 'VENDEDOR')")
+    //@PreAuthorize("hasAnyAuthority('GERENTE', 'VENDEDOR')")
     public ResponseEntity<VendaDTO> atualizar(@PathVariable UUID id, @RequestBody VendaDTO dto) {
         Venda vendaAtualizada = VendaMapper.toEntity(dto, null, null, null, null);
         Venda atualizado = vendaService.atualizar(id, vendaAtualizada);
@@ -61,7 +61,7 @@ public class VendaController {
 
     // Deletar venda (Somente Gerente)
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasRole('GERENTE')")
+    //@PreAuthorize("hasAuthority('GERENTE')")
     public ResponseEntity<Void> deletar(@PathVariable UUID id) {
         vendaService.deletar(id);
         return ResponseEntity.noContent().build();
