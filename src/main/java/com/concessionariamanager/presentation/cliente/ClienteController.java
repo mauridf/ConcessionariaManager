@@ -2,7 +2,9 @@ package com.concessionariamanager.presentation.cliente;
 
 import com.concessionariamanager.application.cliente.ClienteService;
 import com.concessionariamanager.domain.cliente.Cliente;
-import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -25,8 +27,11 @@ public class ClienteController {
 
     @GetMapping
     //@PreAuthorize("hasAnyAuthority('GERENTE', 'VENDEDOR', 'MECANICO')")
-    public List<Cliente> listarClientes() {
-        return clienteService.listarClientes();
+    public Page<Cliente> listarClientes(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(required = false) String nome) {
+        return clienteService.listarClientes(PageRequest.of(page, size), nome);
     }
 
     @GetMapping("/{id}")

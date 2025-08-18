@@ -7,6 +7,8 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 @Service
 public class ClienteService {
@@ -22,8 +24,11 @@ public class ClienteService {
         return clienteRepository.save(cliente);
     }
 
-    public List<Cliente> listarClientes() {
-        return clienteRepository.findAll();
+    public Page<Cliente> listarClientes(Pageable pageable, String nome) {
+        if (nome != null && !nome.isEmpty()) {
+            return clienteRepository.findByNomeContainingIgnoreCase(nome, pageable);
+        }
+        return clienteRepository.findAll(pageable);
     }
 
     public Optional<Cliente> buscarPorId(Long id) {
