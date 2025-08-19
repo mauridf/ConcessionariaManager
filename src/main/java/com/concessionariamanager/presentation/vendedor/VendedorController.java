@@ -1,5 +1,9 @@
 package com.concessionariamanager.presentation.vendedor;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+
 import com.concessionariamanager.application.vendedor.VendedorService;
 import com.concessionariamanager.application.vendedor.dto.VendedorDTO;
 import com.concessionariamanager.application.mapper.VendedorMapper;
@@ -32,11 +36,12 @@ public class VendedorController {
     // Listar todos (autenticados)
     @GetMapping
     //@PreAuthorize("isAuthenticated()")
-    public ResponseEntity<List<VendedorDTO>> listarTodos() {
-        var lista = vendedorService.listarTodos()
-                .stream()
-                .map(VendedorMapper::toDTO)
-                .toList();
+    public ResponseEntity<Page<VendedorDTO>> listarTodos(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) {
+
+        Pageable pageable = PageRequest.of(page, size);
+        Page<VendedorDTO> lista = vendedorService.listarTodos(pageable);
         return ResponseEntity.ok(lista);
     }
 

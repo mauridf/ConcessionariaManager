@@ -12,6 +12,10 @@ public class VendedorDTO {
     private LocalDateTime dataCadastro;
     private LocalDateTime dataAtualizacao;
 
+    private String usuarioNome;
+    private String usuarioEmail;
+    private String usuarioRole;
+
     public VendedorDTO() {}
 
     public UUID getId() {
@@ -61,4 +65,13 @@ public class VendedorDTO {
     public void setDataAtualizacao(LocalDateTime dataAtualizacao) {
         this.dataAtualizacao = dataAtualizacao;
     }
+
+    public String getUsuarioNome() { return usuarioNome; }
+    public void setUsuarioNome(String usuarioNome) { this.usuarioNome = usuarioNome; }
+
+    public String getUsuarioEmail() { return usuarioEmail; }
+    public void setUsuarioEmail(String usuarioEmail) { this.usuarioEmail = usuarioEmail; }
+
+    public String getUsuarioRole() { return usuarioRole; }
+    public void setUsuarioRole(String usuarioRole) { this.usuarioRole = usuarioRole; }
 }

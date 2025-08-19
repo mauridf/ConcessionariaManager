@@ -1,8 +1,14 @@
 package com.concessionariamanager.application.vendedor;
 
+import com.concessionariamanager.application.mapper.VendedorMapper;
+import com.concessionariamanager.application.user.UserService;
+import com.concessionariamanager.application.vendedor.dto.VendedorDTO;
 import com.concessionariamanager.domain.vendedor.Vendedor;
 import com.concessionariamanager.infrastructure.vendedor.VendedorRepository;
 import org.springframework.stereotype.Service;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -12,9 +18,11 @@ import java.util.UUID;
 public class VendedorService {
 
     private final VendedorRepository vendedorRepository;
+    private final UserService userService;
 
-    public VendedorService(VendedorRepository vendedorRepository) {
+    public VendedorService(VendedorRepository vendedorRepository, UserService userService) {
         this.vendedorRepository = vendedorRepository;
+        this.userService = userService;
     }
 
     public Vendedor salvar(Vendedor vendedor) {
@@ -23,8 +31,16 @@ public class VendedorService {
         return vendedorRepository.save(vendedor);
     }
 
-    public List<Vendedor> listarTodos() {
-        return vendedorRepository.findAll();
+    public Page<VendedorDTO> listarTodos(Pageable pageable) {
+        return vendedorRepository.findAllVendedores(pageable)
+                .map(vendedor -> {
+                    VendedorDTO dto = VendedorMapper.toDTO(vendedor);
+                    var user = userService.findById(vendedor.getUsuarioId());
+                    dto.setUsuarioNome(user.nome());
+                    dto.setUsuarioEmail(user.email());
+                    dto.setUsuarioRole(user.role().name());
+                    return dto;
+                });
     }
 
     public List<Vendedor> listarAtivos() {

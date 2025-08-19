@@ -4,7 +4,11 @@ import com.concessionariamanager.application.autopecas.dto.AutoPecaDTO;
 import com.concessionariamanager.application.mecanico.MecanicoService;
 import com.concessionariamanager.application.mecanico.dto.MecanicoDTO;
 import com.concessionariamanager.application.mapper.MecanicoMapper;
+import com.concessionariamanager.application.vendedor.dto.VendedorDTO;
 import com.concessionariamanager.domain.mecanico.Mecanico;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -33,11 +37,12 @@ public class MecanicoController {
     // Listar todos (autenticados)
     @GetMapping
     //@PreAuthorize("isAuthenticated()")
-    public ResponseEntity<List<MecanicoDTO>> listarTodos() {
-        var lista = mecanicoService.listarTodos()
-                .stream()
-                .map(MecanicoMapper::toDTO)
-                .toList();
+    public ResponseEntity<Page<MecanicoDTO>> listarTodos(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) {
+
+        Pageable pageable = PageRequest.of(page, size);
+        Page<MecanicoDTO> lista = mecanicoService.listarTodos(pageable);
         return ResponseEntity.ok(lista);
     }
 
